@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NinjaMan</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .row {
+            line-height: 0;
+        }
+        .wall {
+            background-color: blue;
+            height: 40px;
+            width: 40px;
+            display: inline-block;
+        }
+        .sushi {
+            background-color: black;
+            height: 40px;
+            width: 40px;
+            display: inline-block;
+            background-image: url('sushi.png');
+            background-size: contain;
+        }
+        .onigiri {
+            background-color: black;
+            height: 40px;
+            width: 40px;
+            display: inline-block;
+            background-image: url('onigiri.png');
+            background-size: contain;
+        }
+        .blank {
+            background-color: black;
+            height: 40px;
+            width: 40px;
+            display: inline-block;
+        }
+        #ninjaman {
+            background-color: black;
+            height: 40px;
+            width: 40px;
+            display: inline-block;
+            background-image: url('ninja.gif');
+            background-size: contain;
+            position: absolute;
+            left: 40px;
+            top: 40px;
+        }
+        #pinky {
+            background-color: black;
+            height: 40px;
+            width: 40px;
+            display: inline-block;
+            background-image: url('pinky.gif');
+            background-size: contain;
+            position: absolute;
+            left: 40px;
+            top: 40px;
+        }
+        #bluey {
+            background-color: black;
+            height: 40px;
+            width: 40px;
+            display: inline-block;
+            background-image: url('bluey.gif');
+            background-size: contain;
+            position: absolute;
+            left: 40px;
+            top: 40px;
+        }
+        #pumpky {
+            background-color: black;
+            height: 40px;
+            width: 40px;
+            display: inline-block;
+            background-image: url('pumpky.gif');
+            background-size: contain;
+            position: absolute;
+            left: 40px;
+            top: 40px;
+        }
+        #red {
+            background-color: black;
+            height: 40px;
+            width: 40px;
+            display: inline-block;
+            background-image: url('red.gif');
+            background-size: contain;
+            position: absolute;
+            left: 40px;
+            top: 40px;
+        }
+        
+
+    </style>
+</head>
+<body>
+    
+    <div id='world'></div>
+    <div id='ninjaman'></div>
+    <div id='pinky'></div>
+    <div id='bluey'></div>
+    <div id='pumpky'></div>
+    <div id='red'></div>
+    <div><h2>Score: <span id='score'>0</span></span> Lives: <span id='lives'>3</span></h2></div>
+
+
+</body>
+<script type="text/javascript">
+    var world = [
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,2,3,2,0,2,3,1,0,2,3,1,2,1],
+        [1,3,1,2,3,3,1,2,1,2,1,3,0,0,1],
+        [1,2,2,3,0,2,2,3,1,2,3,1,2,0,0],
+        [1,3,2,2,0,3,2,2,1,1,1,2,2,3,3],
+        [1,2,1,2,0,2,1,2,1,1,2,2,3,0,0],
+        [1,2,3,2,1,2,3,2,1,1,2,0,1,0,3],
+        [1,2,1,2,3,2,1,2,1,1,2,0,1,3,1],
+        [1,3,2,2,0,3,2,2,1,1,2,0,3,1,2],
+        [1,1,1,1,1,1,1,1,1,2,0,1,3,1,0],
+        [1,0,2,3,2,0,2,3,1,0,2,3,1,2,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        
+    ];
+    
+    for(var i=0; i<world.length; i++){
+        world[i].sort(()=> Math.random() - 0.5 );
+        console.log(world);
+    }
+
+    var worldDict = {
+        0: 'blank',
+        1: 'wall',
+        2: 'sushi',
+        3: 'onigiri',
+    }
+    function drawWorld(){
+        output = "";
+
+        for(var row = 0; row < world.length; row++){
+            output += "<div class = 'row'>"
+            for(var x = 0; x < world[row].length; x++){
+                output += "<div class = '" + worldDict[world[row][x]] +"'></div>"
+            }
+                        
+            output += "</div>"
+        }
+        document.getElementById('world').innerHTML = output;
+    }
+    drawWorld();
+
+    var ninjaman = {
+        x: 1,
+        y: 1
+    }
+
+    var pinky = {
+        x: 12,
+        y: 2
+    }
+
+    var bluey = {
+        x: 8,
+        y: 9
+    }
+
+    var pumpky = {
+        x: 6,
+        y: 5
+    }
+
+    var red = {
+        x: 1,
+        y: 7
+    }
+
+
+    var score = 0;
+    var lives = 3;
+    
+    function drawNinjaman(){
+        document.getElementById('ninjaman').style.top = ninjaman.y * 40 + 'px'
+        document.getElementById('ninjaman').style.left = ninjaman.x * 40 + 'px'
+    }
+    drawNinjaman()
+
+    function drawPinky(){
+        document.getElementById('pinky').style.top = pinky.y * 40 + 'px'
+        document.getElementById('pinky').style.left = pinky.x * 40 + 'px'
+    }
+    drawPinky()
+
+    function drawBluey(){
+        document.getElementById('bluey').style.top = bluey.y * 40 + 'px'
+        document.getElementById('bluey').style.left = bluey.x * 40 + 'px'
+    }
+    drawBluey()
+
+    function drawPumpky(){
+        document.getElementById('pumpky').style.top = pumpky.y * 40 + 'px'
+        document.getElementById('pumpky').style.left = pumpky.x * 40 + 'px'
+    }
+    drawPumpky()
+
+    function drawRed(){
+        document.getElementById('red').style.top = red.y * 40 + 'px'
+        document.getElementById('red').style.left = red.x * 40 + 'px'
+    }
+    drawRed()
+
+    document.onkeydown = function(e){
+        if(e.keyCode == 37 ){                                                              //LEFT
+            if(world[ninjaman.y][ninjaman.x - 1] != 1 && ninjaman.x > 0){
+                if(world[ninjaman.y][ninjaman.x - 1] == 2){
+                    score = score + 10;
+                    document.getElementById('score').innerHTML=score;
+                }
+                if(world[ninjaman.y][ninjaman.x - 1] == 3){
+                    score = score + 5;
+                    document.getElementById('score').innerHTML=score;
+                }
+                ninjaman.x--;
+            }
+            if(pinky.x > 0){    
+                if(world[pinky.y][pinky.x - 1]!= 1 ){
+                    /*if(world[pinky.y][pinky.x - 1] = world[bluey.y][bluey.x - 1] ){    //si bluey y pinky se topan
+                        pinky.x--;
+                    }*/
+                    pinky.x-- ;
+                }
+            }
+            if(bluey.x > 0){    
+                if(world[bluey.y][bluey.x - 1]!= 1 ){
+                    /*if(world[bluey.y][bluey.x - 1] != world[pinky.y][pinky.x - 1] ){     //si bluey y pinky se topan
+                        bluey.x--;
+                    }*/
+                    bluey.x-- ;
+                }
+            }
+            if(pumpky.x > 0){    
+                if(world[pumpky.y][pumpky.x - 1]!= 1 ){
+                    pumpky.x-- ;
+                }
+            }
+            if(red.x > 0){    
+                if(world[red.y][red.x - 1]!= 1 ){
+                    red.x-- ;
+                }
+            }
+        }
+
+
+        if(e.keyCode == 39 ) {                                                              //RIGHT
+            if(world[ninjaman.y][ninjaman.x + 1] != 1 && ninjaman.x < 14){ 
+                if(world[ninjaman.y][ninjaman.x + 1] == 2){
+                    score = score + 10;
+                    document.getElementById('score').innerHTML=score;
+                }
+                if(world[ninjaman.y][ninjaman.x + 1] == 3){
+                    score = score + 5;
+                    document.getElementById('score').innerHTML=score;
+                }
+                ninjaman.x++;
+            }
+
+            if(pinky.x < 14){
+                if(world[pinky.y][pinky.x + 1] != 1){                                   
+                    /*if(world[pinky.y][pinky.x + 1] != world[bluey.y][bluey.x + 1] ){         //si bluey y pinky se topan
+                        pinky.x++;
+                    }*/
+                    pinky.x++;
+                }
+            }
+            if(bluey.x < 14){    
+                if(world[bluey.y][bluey.x + 1]!= 1 ){
+                    /*if(world[bluey.y][bluey.x + 1] != world[pinky.y][pinky.x + 1] ){         //si bluey y pinky se topan
+                        bluey.x++;
+                    }*/
+                    bluey.x++;
+                }
+            }
+            if(pumpky.x < 8){
+                if(world[pumpky.y][pumpky.x + 1] != 1){
+                    pumpky.x++;
+                }
+            }
+            if(red.x < 8){
+                if(world[red.y][red.x + 1] != 1){
+                    red.x++;
+                }
+            }
+        }
+
+
+        if(e.keyCode == 40){                                            //DOWN
+            if(world[ninjaman.y + 1][ninjaman.x] != 1){
+                if(world[ninjaman.y + 1][ninjaman.x] == 2){
+                    score = score + 10;
+                    document.getElementById('score').innerHTML=score;
+                }
+                if(world[ninjaman.y + 1][ninjaman.x] == 3){
+                    score = score + 5;
+                    document.getElementById('score').innerHTML=score;
+                }                               
+                ninjaman.y++;
+            }
+
+            if(pinky.y < 12){
+                if(world[pinky.y + 1][pinky.x] != 1){
+                    /*if(world[pinky.y + 1][pinky.x] != world[bluey.y + 1][bluey.x] ){          //si bluey y pinky se topan
+                        pinky.x++;
+                    }*/
+                    pinky.y++;
+                }
+            }
+            if(bluey.y < 12){
+                if(world[bluey.y + 1][bluey.x] != 1){
+                    /*if(world[bluey + 1][bluey.x] = world[pinky.y + 1][pinky.x] ){              //si bluey y pinky se topan
+                        bluey.x++;
+                    }*/
+                    bluey.y++;
+                }
+            }
+            if(pumpky.y < 12){
+                if(world[pumpky.y + 1][pumpky.x] != 1){
+                    pumpky.y++;
+                }
+            }
+            if(red.y < 12){
+                if(world[red.y + 1][red.x] != 1){
+                    red.y++;
+                }
+            }
+        }
+
+
+        if(e.keyCode == 38){                                            //UP
+            if(world[ninjaman.y - 1][ninjaman.x] != 1){
+                if(world[ninjaman.y - 1][ninjaman.x] == 2){
+                    score = score + 10;
+                    document.getElementById('score').innerHTML=score;
+                }
+                if(world[ninjaman.y - 1][ninjaman.x] == 3){
+                    score = score + 5;
+                    document.getElementById('score').innerHTML=score;
+                }
+                ninjaman.y--;
+            }
+
+            if(pinky.y > 0){
+                if(world[pinky.y - 1][pinky.x] != 1){
+                    pinky.y--;
+                }
+            }
+            if(bluey.y > 0){
+                if(world[bluey.y - 1][bluey.x] != 1){
+                    bluey.y--;
+                }
+            }
+            if(bluey.y > 0){
+                if(world[pumpky.y - 1][pumpky.x] != 1){
+                    pumpky.y--;
+                }
+            } 
+            if(red.y > 0){
+                if(world[red.y - 1][red.x] != 1){
+                    red.y--;
+                }
+            } 
+        }
+
+        //ninjaman pierde una vida
+        if((ninjaman.x === pinky.x) && (ninjaman.y === pinky.y)){
+            lives = lives - 1;
+            document.getElementById('lives').innerHTML=lives;
+            ninjaman.x = 1;
+            ninjaman.y = 1;
+            pinky.x = 12;
+            pinky.y = 2;
+            bluey.x = 7;
+            bluey.y = 6;
+            pumpky.x = 6;
+            pumpky.y = 8;
+            red.x = 1;
+            red.y = 7;
+        }
+        if((ninjaman.x === bluey.x) && (ninjaman.y === bluey.y)){
+            lives = lives - 1;
+            document.getElementById('lives').innerHTML=lives;
+            ninjaman.x = 1;
+            ninjaman.y = 1;
+            pinky.x = 12;
+            pinky.y = 2;
+            bluey.x = 7;
+            bluey.y = 6;
+            pumpky.x = 6;
+            pumpky.y = 8;
+            red.x = 1;
+            red.y = 7;
+        }
+        if((ninjaman.x === pumpky.x) && (ninjaman.y === pumpky.y)){
+            lives = lives - 1;
+            document.getElementById('lives').innerHTML=lives;
+            ninjaman.x = 1;
+            ninjaman.y = 1;
+            pinky.x = 12;
+            pinky.y = 2;
+            bluey.x = 7;
+            bluey.y = 6;
+            pumpky.x = 6;
+            pumpky.y = 8;
+            red.x = 1;
+            red.y = 7;
+        }
+        if((ninjaman.x === red.x) && (ninjaman.y === red.y)){
+            lives = lives - 1;
+            document.getElementById('lives').innerHTML=lives;
+            ninjaman.x = 1;
+            ninjaman.y = 1;
+            pinky.x = 12;
+            pinky.y = 2;
+            bluey.x = 7;
+            bluey.y = 6;
+            pumpky.x = 6;
+            pumpky.y = 8;
+            red.x = 1;
+            red.y = 7;
+        }
+
+        //ninjaman se queda sin vidas
+        if(lives === 0){
+            document.write("<span style=\"color:black;font-size: 2em;font-family:'Times New Roman', Times, serif;\">Devorado por calabazas!</br>Tu puntaje = "+ score +" </span>");
+        }
+
+        //ninjaman gana 400 puntos y finaliza el juego
+        if(score > 400){
+            document.write("<span style=\"color:black;font-size: 2em;font-family:'Times New Roman', Times, serif;\">Ganaste!</br>Tu puntaje = "+ score +" </span>");
+        }
+        
+        world[ninjaman.y][ninjaman.x] = 0;
+        
+        drawNinjaman()
+        drawPinky()
+        drawBluey()
+        drawPumpky()
+        drawRed()
+        drawWorld()
+
+    }
+
+</script>
+</html>
